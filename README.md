@@ -9,7 +9,7 @@ Here is the APIs documentation: [Book Store API](https://api.bookstore.griter.io
 **Goal** To asses your skills level in Next.js by integrating with a set of APIs provided. 
 
 **Requirements**
--  We are providing a github repository for you to use as a starting point. This includes Next.js and Tailwind. You may fork this repository and create a Pull Request upon completion.
+-  We are providing a github repository for you to use as a starting point (please refer to `Usage Guide.md`). This includes Next.js and Tailwind. You may fork this repository and create a Pull Request upon completion.
 -  Integrate Login and Registration Pages
 -  Integrate basic CRUD for Books with file upload for cover photo
 -  Integrate search feature for Books
