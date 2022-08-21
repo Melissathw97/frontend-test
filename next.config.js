@@ -6,11 +6,12 @@ module.exports = withPWA({
     dest: 'public',
     register: true,
     sw: 'service-worker.js',
-		buildExcludes: [/middleware-manifest.json$/]
+    buildExcludes: [/middleware-manifest.json$/]
   },
   env: {
     apiURL: process.env.API_URL,
-    googleAPI: process.env.GOOGLE_API
+    googleAPI: process.env.GOOGLE_API,
+    accessId: process.env.ACCESS_ID
   }
   // Use process.env.apiURL to access env in your codebase
 })

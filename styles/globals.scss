@@ -1,7 +1,8 @@
 @import 'mixins';
 :root{
-  --primary-800: #0027b3;
-  --primary: #0038FF;
+  --primary-800: #C4412A;
+  --primary: #F15B40;
+  --primary-text: #FF7A00;
   --primary-300: #4D74FF;
   --primary-200: #E5EBFF;
   --primary-100: #F5F7FF;
@@ -141,13 +142,13 @@ h2 {
 }
 
 h3 {
-  font-weight: 700 !important;
+  font-weight: 400 !important;
   font-size: 20px !important;
   letter-spacing: -0.03em !important;
 }
 
 h4 {
-  font-weight: 700 !important;
+  font-weight: 400 !important;
   font-size: 18px !important;
 }
 

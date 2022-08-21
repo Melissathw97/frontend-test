@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link"
+import { routes } from "../../constants/routes";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -136,7 +137,7 @@ export default function Navbar(props) {
               </li>
 
               <li className="flex items-center">
-                <Link href="/admin"><a
+                <Link href={routes.user.login}><a
                   className={
                     (props.transparent
                       ? "bg-white text-gray-800 active:bg-gray-100"
@@ -146,7 +147,7 @@ export default function Navbar(props) {
                   type="button"
                   style={{ transition: "all .15s ease" }}
                 >
-                  Admin Panel
+                  Sign in
                 </a></Link>
               </li>
             </ul>

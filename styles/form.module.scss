@@ -304,6 +304,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 
     &:hover { background: var(--primary-800); }
     &:focus { box-shadow: 0px 0px 0px 4px var(--primary-200); }
