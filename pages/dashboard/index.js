@@ -5,13 +5,28 @@ import Button from '../../components/reusable/button'
 import styles from '../../styles/dashboard.module.scss'
 import { getBookList } from '../../components/auth/admin/api'
 import NewBookModal from '../../components/app/dashboard/newBookModal'
+import ViewBookModal from '../../components/app/dashboard/viewBookModal'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [bookList, setBookList] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState({
+    newBookModal: false, viewBookModal: false
+  });
+  const [selectedBookId, setSelectedBookId] = useState("");
 
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const toggleNewBookModal = () => setIsModalOpen({
+    ...isModalOpen, newBookModal: !isModalOpen.newBookModal
+  });
+
+  const toggleViewBookModal = () => setIsModalOpen({
+    ...isModalOpen, viewBookModal: !isModalOpen.viewBookModal
+  });
+
+  const viewBookHandler = bookId => {
+    setSelectedBookId(bookId)
+    toggleViewBookModal()
+  }
 
   useEffect(() => {
     getBookList().then(data => {
@@ -25,10 +40,10 @@ const Dashboard = () => {
       <div className="divide-y">
         <div className="flex items-center justify-between pl-4 md:pl-0 pr-4 pb-3">
           <h3>Book listing</h3>
-          <Button size="sm" onClick={toggleModal}>
+          <Button size="sm" onClick={toggleNewBookModal}>
             New book
           </Button>
-          {isModalOpen && <NewBookModal toggleModal={toggleModal} />}
+          {isModalOpen.newBookModal && <NewBookModal toggleModal={toggleNewBookModal} />}
         </div>
         <div className="flex pl-4 md:pl-0 py-5 items-center">
           <Icon name="search" />
@@ -56,6 +71,7 @@ const Dashboard = () => {
                 {
                   bookList.map(book => {
                     const {
+                      id,
                       title,
                       fiction,
                       cover_photo: {
@@ -85,7 +101,9 @@ const Dashboard = () => {
                           </a>
                         </div>
                         <div>
-                          <a>view</a>
+                          <a onClick={() => viewBookHandler(id)}>
+                            view
+                          </a>
                           <a>delete</a>
                         </div>
                       </>
@@ -95,6 +113,14 @@ const Dashboard = () => {
               </div>
           }
         </div>
+
+        {isModalOpen.viewBookModal && (
+          <ViewBookModal
+            bookId={selectedBookId}
+            toggleModal={toggleViewBookModal}
+          />
+        )}
+
       </div>
     </Layouts.App>
   )

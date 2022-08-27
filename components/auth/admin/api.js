@@ -67,6 +67,13 @@ export const getBookList = () => {
         })
 }
 
+export const getBook = id => {
+    return api.get(`${apiRoutes.books}/${id}`)
+        .then(res => {
+            return res.data.book;
+        })
+}
+
 export const createBook = ({ title, fiction, genreId, authorId, coverPhoto, serialNumber, publishedYear }) => {
     return api.post(apiRoutes.books, {
         book: {
