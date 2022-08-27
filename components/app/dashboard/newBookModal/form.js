@@ -162,8 +162,8 @@ const NewBookForm = ({ toggleModal }) => {
           disabled={isSubmitting}
           required
         />
-        <div className="flex">
-          <div className="flex-1 mr-3">
+        <div className="sm:flex">
+          <div className="flex-1 sm:mr-3">
             <Input
               label="Published year" name="publishedYear"
               type="number"
@@ -214,7 +214,7 @@ const NewBookForm = ({ toggleModal }) => {
             />
         }
       </div>
-      <div className="bg-gray-50 px-4 py-3 sm:px-6 flex flex-row-reverse items-center">
+      <div className="bg-gray-50 px-4 py-3 sm:px-6 flex flex-row-reverse items-center justify-between">
         <Button size="md" variant="secondary" type="submit" loading={isSubmitting}>
           Add new book
         </Button>
