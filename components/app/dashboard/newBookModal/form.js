@@ -7,7 +7,7 @@ import Button from '../../../reusable/button'
 import styles from '../../../../styles/dashboard.module.scss'
 import { getAuthorList, getGenreList, createBook } from '../../../auth/admin/api'
 
-const NewBookForm = ({ toggleModal }) => {
+const NewBookForm = ({ toggleModal, addBookHandler }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authorList, setAuthorList] = useState([]);
@@ -115,11 +115,26 @@ const NewBookForm = ({ toggleModal }) => {
       serialNumber: serialNo,
       publishedYear
     }).then(book => {
+      addBookHandler(book)
       toast.success(`${book.title} succesfully added`)
       setIsSubmitting(false)
       toggleModal()
-    }).catch(({ response: { data: { error_messages: errorMessages } } }) => {
-      toast.error(errorMessages[0])
+    }).catch(error => {
+
+      const {
+        response: {
+          data: {
+            error_messages: errorMessages
+          } = {} = {}
+        } = {}
+      } = error;
+
+      if (errorMessages) {
+        toast.error(errorMessages[0])
+      } else {
+        toast.error(error)
+      }
+
       setIsSubmitting(false)
     })
   }
@@ -138,7 +153,6 @@ const NewBookForm = ({ toggleModal }) => {
         />
         <Input
           label="Serial number" name="serialNo"
-          type="number"
           onChange={handleChange}
           value={bookDetails.serialNo}
           disabled={isSubmitting}

@@ -90,6 +90,10 @@ export const createBook = ({ title, fiction, genreId, authorId, coverPhoto, seri
     })
 }
 
+export const deleteBook = id => {
+    return api.delete(`${apiRoutes.books}/${id}`)
+}
+
 export const getAuthorList = () => {
     return api.get(apiRoutes.authors)
         .then(res => {

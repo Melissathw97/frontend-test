@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 import Icon from '../../components/reusable/icon'
 import * as Layouts from '../../components/layouts'
 import Button from '../../components/reusable/button'
 import styles from '../../styles/dashboard.module.scss'
-import { getBookList } from '../../components/auth/admin/api'
 import NewBookModal from '../../components/app/dashboard/newBookModal'
 import ViewBookModal from '../../components/app/dashboard/viewBookModal'
+import { getBookList, deleteBook } from '../../components/auth/admin/api'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,9 +24,32 @@ const Dashboard = () => {
     ...isModalOpen, viewBookModal: !isModalOpen.viewBookModal
   });
 
+  const addBookHandler = newBook => {
+    const newBookList = [...bookList]
+    newBookList.push(newBook)
+    setBookList(newBookList)
+  }
+
   const viewBookHandler = bookId => {
     setSelectedBookId(bookId)
     toggleViewBookModal()
+  };
+
+  const deleteBookHandler = ({ title, bookId }) => {
+    deleteBook(bookId).then(() => {
+      toast.success(`${title} successfully deleted`)
+
+      const newBookList = [...bookList]
+      const bookIndex = newBookList.findIndex(({ id }) => id === bookId)
+
+      if (bookIndex > -1) {
+        newBookList.splice(bookIndex, 1)
+        setBookList(newBookList)
+      }
+
+    }).catch(() => {
+      toast.error(`${title} failed to delete. Please try again later.`)
+    })
   }
 
   useEffect(() => {
@@ -43,7 +67,12 @@ const Dashboard = () => {
           <Button size="sm" onClick={toggleNewBookModal}>
             New book
           </Button>
-          {isModalOpen.newBookModal && <NewBookModal toggleModal={toggleNewBookModal} />}
+          {isModalOpen.newBookModal && (
+            <NewBookModal
+              toggleModal={toggleNewBookModal}
+              addBookHandler={addBookHandler}
+            />
+          )}
         </div>
         <div className="flex pl-4 md:pl-0 py-5 items-center">
           <Icon name="search" />
@@ -104,7 +133,9 @@ const Dashboard = () => {
                           <a onClick={() => viewBookHandler(id)}>
                             view
                           </a>
-                          <a>delete</a>
+                          <a onClick={() => deleteBookHandler({ title, bookId: id })}>
+                            delete
+                          </a>
                         </div>
                       </>
                     )

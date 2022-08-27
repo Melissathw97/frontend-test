@@ -1,7 +1,7 @@
 import NewBookForm from './form'
 import Icon from '../../../reusable/icon'
 
-export default function NewBookModal({ toggleModal }) {
+export default function NewBookModal({ toggleModal, addBookHandler }) {
   return (
     <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -19,7 +19,10 @@ export default function NewBookModal({ toggleModal }) {
                 </h3>
               </div>
 
-              <NewBookForm toggleModal={toggleModal} />
+              <NewBookForm
+                toggleModal={toggleModal}
+                addBookHandler={addBookHandler}
+              />
 
             </div>
           </div>
