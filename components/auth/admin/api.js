@@ -20,6 +20,9 @@ export const apiRoutes = {
     login: '/login',
     register: '/register',
     getAccount: '/accounts',
+    books: '/books',
+    authors: '/authors',
+    genres: '/genres',
 };
 
 export const userLogin = ({ email, password }) => {
@@ -55,4 +58,61 @@ export const getUserAccount = () => {
         .then(res => {
             return res.data.user;
         })
+}
+
+export const getBookList = () => {
+    return api.get(apiRoutes.books)
+        .then(res => {
+            return res.data.books;
+        })
+}
+
+export const createBook = ({ title, fiction, genreId, authorId, coverPhoto, serialNumber, publishedYear }) => {
+    return api.post(apiRoutes.books, {
+        book: {
+            title,
+            fiction,
+            genre_id: genreId,
+            author_id: authorId,
+            cover_photo: coverPhoto,
+            serial_number: serialNumber,
+            published_year: publishedYear
+        }
+    }).then(res => {
+        return res.data.book;
+    })
+}
+
+export const getAuthorList = () => {
+    return api.get(apiRoutes.authors)
+        .then(res => {
+            return res.data.authors;
+        })
+}
+
+export const getGenreList = () => {
+    return api.get(apiRoutes.genres)
+        .then(res => {
+            return res.data.genres;
+        })
+}
+
+export const createAuthor = ({ name }) => {
+    return api.post(apiRoutes.authors, {
+        author: {
+            name
+        }
+    }).then(res => {
+        return res.data.author;
+    })
+}
+
+export const createGenre = ({ name }) => {
+    return api.post(apiRoutes.genres, {
+        genre: {
+            name
+        }
+    }).then(res => {
+        return res.data.genre;
+    })
 }

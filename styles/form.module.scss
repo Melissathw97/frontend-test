@@ -20,6 +20,11 @@
         white-space: nowrap;
     }
 
+    input[type="file"] ~ .label {
+        top: 0;
+        left: 0;
+    }
+
     &.focused {
         .label {
             color: var(--primary);
@@ -44,14 +49,14 @@
     }
 
     .input_field {
-        border: 1px solid var(--dark-300);
+        border: 1px solid var(--dark-200);
         background-color: white;
         box-sizing: border-box;
-        padding: 33px 45px 11px 12px;
+        padding: 33px 12px 11px 12px;
         border-radius: 6px;
         width: 100%;
         min-height: 70px;
-        color: var(--dark-800);
+        color: var(--dark-400);
 
         &:focus {
             outline: none !important;
@@ -87,6 +92,29 @@
 
         &::placeholder {
             font-weight: 300;
+        }
+    }
+
+    input[type="file"] {
+        padding: 0;
+        min-height: 60px;
+    }
+
+    .select_field {
+        select {
+            width: 100%;
+            padding: 0 !important;
+            background-position: right 5px top 65%, 0 0;
+
+            &:disabled {
+                background: none;
+                color: var(--dark-800);
+            }
+        }
+
+        select:focus [class="select_field"] {
+            outline: none !important;
+            border: 1px solid var(--primary);
         }
     }
 
@@ -308,14 +336,17 @@
 
     &:hover { background: var(--primary-800); }
     &:focus { box-shadow: 0px 0px 0px 4px var(--primary-200); }
-    &.secondary { background: var(--primary-200); color: var(--primary); }
+    &.secondary { background: var(--secondary); color: #FFFFFF; }
     &.secondaryLight { background: var(--primary-100); color: var(--primary); }
     &.light { background: #FFFFFF; color: var(--primary); &:hover { background: var(--primary-200) } }
     &.outline { background: #FFFFFF; border: 1px solid var(--dark-200); color: var(--dark-800); &:hover { background: var(--dark-100) } }
     &.danger { background: #FF0000; color: #FFFFFF; &:hover { background: #D80000 } }
+    &.link { background: none; color: #000000; &:hover { text-decoration: underline } }
     &.sm { height: 36px; min-width: 64px; }
+    &.md { height: 45px; min-width: 64px; }
     &.lg { height: auto; padding: 15px; }
     &.disabled { background: var(--dark-200) !important; color: var(--dark-400) !important; cursor: not-allowed !important; pointer-events: none; }
+    &.disabledLink { cursor: not-allowed; color: var(--dark-400); &:hover { text-decoration: none } }
 }
 
 .button_small {
