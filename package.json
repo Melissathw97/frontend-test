@@ -9,6 +9,9 @@
     "test": "playwright test"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "axios": "^0.26.1",
     "framer-motion": "^6.2.9",
     "js-cookie": "^3.0.1",
