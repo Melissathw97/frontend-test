@@ -51,29 +51,28 @@ export default function Input(props) {
 
     if (type === "select") {
         return (
-            <div className={styles.dynamic_input}>
-                <div className={`${styles.input_field} ${styles.select_field} ${disabled && styles.disabled}`}>
-                    <label htmlFor={name} className={styles.label}>
-                        {label}
-                    </label>
-                    <select
-                        id={name}
-                        name={name}
-                        value={value}
-                        onChange={onChange}
-                        required={required}
-                        disabled={disabled}
-                    >
-                        <option disabled value="">
-                            -- Select an option --
+            <div className={`${styles.dynamic_input} ${disabled && styles.disabled}`}>
+                <select
+                    id={name}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    required={required}
+                    disabled={disabled}
+                    className={styles.input_field}
+                >
+                    <option disabled value="">
+                        -- Select an option --
                         </option>
-                        {selectOptions.map(({ label, value }) => (
-                            <option key={value} value={value}>
-                                {label}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                    {selectOptions.map(({ label, value }) => (
+                        <option key={value} value={value}>
+                            {label}
+                        </option>
+                    ))}
+                </select>
+                <label htmlFor={name} className={styles.label}>
+                    {label}
+                </label>
             </div>
         )
     }
