@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { toast } from 'react-toastify'
 import Icon from '../../components/reusable/icon'
 import * as Layouts from '../../components/layouts'
@@ -210,7 +210,7 @@ const Dashboard = () => {
                     } = book;
 
                     return (
-                      <>
+                      <Fragment key={id}>
                         <div>{serialNumber}</div>
                         <div>{title}</div>
                         <div>{author}</div>
@@ -230,7 +230,7 @@ const Dashboard = () => {
                             delete
                           </a>
                         </div>
-                      </>
+                      </Fragment>
                     )
                   })
                 }
