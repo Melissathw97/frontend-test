@@ -1,12 +1,15 @@
-import Icon from '../../../reusable/icon'
 import { useEffect, useState } from 'react'
-import Button from '../../../reusable/button';
-import Loading from '../../../reusable/loading';
-import { getBook } from '../../../auth/admin/api';
+import EditBookForm from './editForm'
+import BookDetails from './bookDetails'
+import Icon from '../../../reusable/icon'
+import Loading from '../../../reusable/loading'
+import { getBook } from '../../../auth/admin/api'
 
-const ViewBookModal = ({ bookId, toggleModal }) => {
+const ViewBookModal = ({ bookId, toggleModal, editBookHandler }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [bookDetails, setBookDetails] = useState({
+    id: "",
     title: "",
     serialNo: "",
     author: "",
@@ -16,17 +19,16 @@ const ViewBookModal = ({ bookId, toggleModal }) => {
     coverPhoto: ""
   });
 
+  const toggleEditing = () => setIsEditing(!isEditing);
+
   useEffect(() => {
     getBook(bookId).then(book => {
       const {
+        id,
         title,
         serial_number: serialNo,
-        author: {
-          name: author
-        },
-        genre: {
-          name: genre
-        },
+        author,
+        genre,
         published_year: publishedYear,
         fiction,
         cover_photo: {
@@ -34,7 +36,7 @@ const ViewBookModal = ({ bookId, toggleModal }) => {
         }
       } = book;
 
-      setBookDetails({ title, serialNo, author, genre, publishedYear, fiction, coverPhoto });
+      setBookDetails({ id, title, serialNo, author, genre, publishedYear, fiction, coverPhoto });
       setIsLoading(false);
     })
   }, []);
@@ -53,8 +55,6 @@ const ViewBookModal = ({ bookId, toggleModal }) => {
     </div>
   )
 
-  const { title, serialNo, genre, author, publishedYear, fiction, coverPhoto } = bookDetails;
-
   return (
     <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -68,51 +68,25 @@ const ViewBookModal = ({ bookId, toggleModal }) => {
                   <Icon name="billing" />
                 </div>
                 <h3 className="ml-4 text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                  {title}
+                  {isEditing ? "Edit book" : bookDetails.title}
                 </h3>
               </div>
 
-              <div className="bg-secondary-200 px-4 py-3 sm:px-6">
-                <p className="text-sm text-gray-500">Serial number</p>
-                <p>{serialNo}</p>
-              </div>
+              {
+                isEditing ?
+                  <EditBookForm
+                    book={bookDetails}
+                    toggleModal={toggleModal}
+                    editBookHandler={editBookHandler}
+                  />
+                  :
+                  <BookDetails
+                    book={bookDetails}
+                    toggleModal={toggleModal}
+                    toggleEditing={toggleEditing}
+                  />
+              }
 
-              <div className="px-4 py-5 sm:px-6 sm:flex sm:flex-wrap">
-                <div className="w-1/2 mb-6">
-                  <p className="text-sm text-gray-500">Genre</p>
-                  <p>{genre}</p>
-                </div>
-                <div className="w-1/2 mb-6">
-                  <p className="text-sm text-gray-500">Author</p>
-                  <p>{author}</p>
-                </div>
-                <div className="w-1/2 mb-6">
-                  <p className="text-sm text-gray-500">Published year</p>
-                  <p>{publishedYear}</p>
-                </div>
-                <div className="w-1/2 mb-6">
-                  <p className="text-sm text-gray-500">Fiction</p>
-                  <p>{fiction ? "Yes" : "No"}</p>
-                </div>
-                <div className="w-full">
-                  <p className="text-sm text-gray-500">Cover photo</p>
-                  <div className="my-2">
-                    <img
-                      src={coverPhoto}
-                      className="w-full h-48 rounded-xl object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 flex flex-row-reverse items-center justify-between">
-                <Button size="md" variant="secondary" type="submit">
-                  Edit
-                </Button>
-                <Button variant="link" className="bg-transparent" onClick={toggleModal}>
-                  Done
-                </Button>
-              </div>
             </div>
           </div>
         </div>

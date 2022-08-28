@@ -33,6 +33,16 @@ const Dashboard = () => {
     setBookList(newBookList)
   }
 
+  const editBookHandler = newBook => {
+    const newBookList = [...bookList]
+    const bookIndex = newBookList.findIndex(({ id }) => id === newBook.id)
+
+    if (bookIndex > -1) {
+      newBookList[bookIndex] = newBook
+      setBookList(newBookList)
+    }
+  }
+
   const viewBookHandler = bookId => {
     setSelectedBookId(bookId)
     toggleViewBookModal()
@@ -107,6 +117,15 @@ const Dashboard = () => {
       setIsLoading(false);
     }).catch(() => { })
   }, []);
+
+  useEffect(() => {
+    if (isSearching) {
+      setSearchValue("")
+      setIsSearching(false)
+    }
+
+    setBookListToDisplay(bookList);
+  }, [bookList]);
 
   return (
     <Layouts.App>
@@ -223,6 +242,7 @@ const Dashboard = () => {
           <ViewBookModal
             bookId={selectedBookId}
             toggleModal={toggleViewBookModal}
+            editBookHandler={editBookHandler}
           />
         )}
 
