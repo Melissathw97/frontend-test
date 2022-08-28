@@ -36,3 +36,10 @@ export const getUserAccount = () => {
       return res.data.user;
     })
 }
+
+export const userLogout = () => {
+  return api.delete(apiRoutes.logout)
+    .then(() => {
+      Cookies.remove('authToken');
+    })
+}
