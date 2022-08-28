@@ -6,14 +6,16 @@ import styles from '../../styles/dashboard.module.scss'
 import { getBookList, deleteBook } from '../../api/book'
 import NewBookModal from '../../components/app/dashboard/newBookModal'
 import ViewBookModal from '../../components/app/dashboard/viewBookModal'
+import DeleteBookConfirmationModal from '../../components/app/dashboard/deleteBookConfirmationModal'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [bookList, setBookList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState({
-    newBookModal: false, viewBookModal: false
+    newBookModal: false, viewBookModal: false, deleteBookModal: false
   });
   const [selectedBookId, setSelectedBookId] = useState("");
+  const [bookToDelete, setBookToDelete] = useState({});
   const [isSearching, setIsSearching] = useState(false);
   const [searchValue, setSearchValue] = useState([]);
   const [bookListToDisplay, setBookListToDisplay] = useState([]);
@@ -25,6 +27,13 @@ const Dashboard = () => {
   const toggleViewBookModal = () => setIsModalOpen({
     ...isModalOpen, viewBookModal: !isModalOpen.viewBookModal
   });
+
+  const toggleDeleteBookModal = book => {
+    if (book) setBookToDelete(book);
+    setIsModalOpen({
+      ...isModalOpen, deleteBookModal: !isModalOpen.deleteBookModal
+    });
+  }
 
   const addBookHandler = newBook => {
     const newBookList = [...bookList]
@@ -47,12 +56,14 @@ const Dashboard = () => {
     toggleViewBookModal()
   };
 
-  const deleteBookHandler = ({ title, bookId }) => {
-    deleteBook(bookId).then(() => {
-      toast.success(`${title} successfully deleted`)
+  const deleteBookHandler = () => {
+    const { id: bookId, title } = bookToDelete
 
+    deleteBook(bookId).then(() => {
       const newBookList = [...bookList]
       const bookIndex = newBookList.findIndex(({ id }) => id === bookId)
+
+      toast.success(`${title} successfully deleted`)
 
       if (bookIndex > -1) {
         newBookList.splice(bookIndex, 1)
@@ -224,10 +235,10 @@ const Dashboard = () => {
                         <div>
                           <a onClick={() => viewBookHandler(id)}>
                             view
-                        </a>
-                          <a onClick={() => deleteBookHandler({ title, bookId: id })}>
+                          </a>
+                          <a onClick={() => toggleDeleteBookModal(book)}>
                             delete
-                        </a>
+                          </a>
                         </div>
                       </Fragment>
                     )
@@ -257,6 +268,14 @@ const Dashboard = () => {
           bookId={selectedBookId}
           toggleModal={toggleViewBookModal}
           editBookHandler={editBookHandler}
+        />
+      )}
+
+      {isModalOpen.deleteBookModal && (
+        <DeleteBookConfirmationModal
+          book={bookToDelete}
+          toggleModal={toggleDeleteBookModal}
+          deleteBookHandler={deleteBookHandler}
         />
       )}
 
