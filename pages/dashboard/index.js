@@ -179,59 +179,72 @@ const Dashboard = () => {
               <div className="animate-spin rounded-full border-t-2 border-black h-5 w-5 py-2" />
             </div>
             :
-            <div className={`table-fixed bg-white w-full text-left mt-5 ${styles.bookListTable}`}>
-              <div>Serial number</div>
-              <div>Book title</div>
-              <div>Author</div>
-              <div>Genre</div>
-              <div>Published year</div>
-              <div>Fiction</div>
-              <div>Cover Photo</div>
-              <div>Action</div>
-              {
-                bookListToDisplay.map(book => {
-                  const {
-                    id,
-                    title,
-                    fiction,
-                    cover_photo: {
-                      url: coverPhotoUrl
-                    },
-                    serial_number: serialNumber,
-                    published_year: publishedYear,
-                    author: {
-                      name: author
-                    },
-                    genre: {
-                      name: genre,
-                    }
-                  } = book;
+            <div className={`table-fixed bg-white w-full text-left mt-5 relative ${styles.bookListTable}`}>
+              <div className={styles.bookListTableContent}>
+                <div>Serial number</div>
+                <div>Book title</div>
+                <div>Author</div>
+                <div>Genre</div>
+                <div>Published year</div>
+                <div>Fiction</div>
+                <div>Cover Photo</div>
+                <div>Action</div>
+                {
+                  bookListToDisplay.map(book => {
+                    const {
+                      id,
+                      title,
+                      fiction,
+                      cover_photo: {
+                        url: coverPhotoUrl
+                      },
+                      serial_number: serialNumber,
+                      published_year: publishedYear,
+                      author: {
+                        name: author
+                      },
+                      genre: {
+                        name: genre,
+                      }
+                    } = book;
 
-                  return (
-                    <Fragment key={id}>
-                      <div>{serialNumber}</div>
-                      <div>{title}</div>
-                      <div>{author}</div>
-                      <div>{genre}</div>
-                      <div>{publishedYear}</div>
-                      <div>{fiction ? "Yes" : "No"}</div>
-                      <div className="text-secondary">
-                        <a target="_blank" href={coverPhotoUrl} download={title}>
-                          download
+                    return (
+                      <Fragment key={id}>
+                        <div>{serialNumber}</div>
+                        <div>{title}</div>
+                        <div>{author}</div>
+                        <div>{genre}</div>
+                        <div>{publishedYear}</div>
+                        <div>{fiction ? "Yes" : "No"}</div>
+                        <div className="text-secondary">
+                          <a target="_blank" href={coverPhotoUrl} download={title}>
+                            download
                         </a>
-                      </div>
-                      <div>
-                        <a onClick={() => viewBookHandler(id)}>
-                          view
+                        </div>
+                        <div>
+                          <a onClick={() => viewBookHandler(id)}>
+                            view
                         </a>
-                        <a onClick={() => deleteBookHandler({ title, bookId: id })}>
-                          delete
+                          <a onClick={() => deleteBookHandler({ title, bookId: id })}>
+                            delete
                         </a>
-                      </div>
-                    </Fragment>
-                  )
-                })
-              }
+                        </div>
+                      </Fragment>
+                    )
+                  })
+                }
+              </div>
+
+              <div className="pages flex pt-3 justify-end items-center sticky bottom-0 left-0 pr-4 w-full">
+                {Array.from({ length: 1 }, (_v, i) => (
+                  <div className="bg-secondary text-white h-8 w-8 grid place-items-center rounded-full ml-1">
+                    {i + 1}
+                  </div>
+                ))}
+                <span className="ml-4">
+                  <Icon name="arrowRight" />
+                </span>
+              </div>
             </div>
         }
       </div>
