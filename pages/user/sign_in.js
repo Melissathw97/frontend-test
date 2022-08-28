@@ -63,7 +63,7 @@ const Login = () => {
   }
 
   return (
-    <form onSubmit={onSubmitHandler} className="flex flex-col rounded-xl bg-white shadow-sm px-9 py-12 w-full max-w-md">
+    <form onSubmit={onSubmitHandler} className="flex flex-col rounded-xl bg-white shadow-sm px-5 sm:px-9 py-12 w-full max-w-md">
       <h3 className="text-center pb-12">Sign in to continue to Library</h3>
 
       <Input
@@ -76,7 +76,7 @@ const Login = () => {
       <Input type="password" label="Password" name="password" onChange={handleChange} value={userDetails.password} required />
 
       <div className="divide-y">
-        <div className="flex gap-5 items-center justify-between mt-8 mb-8">
+        <div className="flex gap-5 items-center justify-between mt-4 mb-6">
           <Link href={routes.user.resetPassword}>
             <a className="text-sm">Forgot password?</a>
           </Link>

@@ -51,7 +51,7 @@ const Register = () => {
   }
 
   return (
-    <form onSubmit={onSubmitHandler} className="flex flex-col rounded-xl bg-white shadow-sm px-9 py-12 w-full max-w-md">
+    <form onSubmit={onSubmitHandler} className="flex flex-col rounded-xl bg-white shadow-sm px-5 sm:px-9 py-12 w-full max-w-md">
       <h3 className="text-center pb-12">Register to Library</h3>
 
       <Input label="E-mail" name="email" type="email" onChange={handleChange} value={userDetails.email} required />
@@ -59,7 +59,7 @@ const Register = () => {
       <Input type="password" label="Password" name="password" onChange={handleChange} value={userDetails.password} required />
 
       <div className="divide-y">
-        <div className="flex gap-5 items-center justify-end mt-8 mb-8">
+        <div className="flex gap-5 items-center justify-end mt-4 mb-6">
           <Button type="submit" loading={isLoading}>
             Register
           </Button>
