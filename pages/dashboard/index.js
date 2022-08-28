@@ -237,7 +237,10 @@ const Dashboard = () => {
 
               <div className="pages flex pt-3 justify-end items-center sticky bottom-0 left-0 pr-4 w-full">
                 {Array.from({ length: 1 }, (_v, i) => (
-                  <div className="bg-secondary text-white h-8 w-8 grid place-items-center rounded-full ml-1">
+                  <div
+                    key={`page-${i + 1}`}
+                    className="bg-secondary text-white h-8 w-8 grid place-items-center rounded-full ml-1"
+                  >
                     {i + 1}
                   </div>
                 ))}
