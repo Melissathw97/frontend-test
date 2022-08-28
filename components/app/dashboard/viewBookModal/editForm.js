@@ -4,8 +4,10 @@ import Icon from '../../../reusable/icon'
 import Input from '../../../reusable/input'
 import Button from '../../../reusable/button'
 import Loading from '../../../reusable/loading'
+import { updateBook } from '../../../../api/book'
+import { getGenreList } from '../../../../api/genre'
+import { getAuthorList } from '../../../../api/author'
 import styles from '../../../../styles/dashboard.module.scss'
-import { getAuthorList, getGenreList, updateBook } from '../../../auth/admin/api'
 
 const EditBookForm = ({ book, toggleModal, editBookHandler }) => {
 

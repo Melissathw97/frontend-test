@@ -1,11 +1,12 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import Cookies from 'js-cookie';
-import Loading from '../../reusable/loading';
+import React, { createContext, useState, useContext, useEffect } from 'react'
+import Cookies from 'js-cookie'
+import Loading from './reusable/loading'
 
 //api here is an axios instance which has the baseURL set according to the env.
-import { api, getUserAccount } from './api';
+import { api } from '../api/apiFetcher';
+import { getUserAccount } from '../api/auth';
 import { useRouter } from 'next/router';
-import { routes } from '../../../constants/routes';
+import { routes } from '../constants/routes';
 
 const AuthContext = createContext({});
 

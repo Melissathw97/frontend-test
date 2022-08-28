@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import EditBookForm from './editForm'
 import BookDetails from './bookDetails'
 import Icon from '../../../reusable/icon'
+import { getBook } from '../../../../api/book'
 import Loading from '../../../reusable/loading'
-import { getBook } from '../../../auth/admin/api'
 
 const ViewBookModal = ({ bookId, toggleModal, editBookHandler }) => {
   const [isLoading, setIsLoading] = useState(true);

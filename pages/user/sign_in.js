@@ -1,15 +1,21 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import Router from 'next/router'
 import { toast } from 'react-toastify'
-import Input from '../../components/reusable/input'
-import * as Layouts from '../../components/layouts'
-import Button from '../../components/reusable/button'
-import { userLogin } from '../../components/auth/admin/api'
+import { useRouter } from 'next/router'
+import { userLogin } from '../../api/auth'
 import { routes } from '../../constants/routes'
+import { useAuth } from '../../components/auth'
+import Input from '../../components/reusable/input'
+import Button from '../../components/reusable/button'
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  if (isAuthenticated) router.push("/dashboard")
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [userDetails, setUserDetails] = useState({
     email: '',
     password: ''
@@ -31,47 +37,64 @@ const Login = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsSubmitting(true);
 
     userLogin(userDetails)
       .then(() => {
-        Router.push("/dashboard");
+        router.push("/dashboard");
       })
-      .catch(({ response: { data: { error_messages: errorMessages } } }) => {
-        if (errorMessages) errorMessages.forEach(errorMessage => toast.error(errorMessage));
-        setIsLoading(false);
+      .catch(error => {
+        const {
+          response: {
+            data: {
+              error_messages: errorMessages
+            } = {} = {}
+          } = {}
+        } = error;
+
+        if (errorMessages) {
+          toast.error(errorMessages[0])
+        } else {
+          toast.error(error)
+        }
+
+        setIsSubmitting(false);
       })
   }
 
   return (
-    <Layouts.Auth>
-      <form onSubmit={onSubmitHandler} className="flex flex-col rounded-xl bg-white shadow-sm px-9 py-12 w-full max-w-md">
-        <h3 className="text-center pb-12">Sign in to continue to Library</h3>
+    <form onSubmit={onSubmitHandler} className="flex flex-col rounded-xl bg-white shadow-sm px-9 py-12 w-full max-w-md">
+      <h3 className="text-center pb-12">Sign in to continue to Library</h3>
 
-        <Input label="E-mail" name="email" type="email" onChange={handleChange} value={userDetails.email} required />
-        <Input type="password" label="Password" name="password" onChange={handleChange} value={userDetails.password} required />
+      <Input
+        label="E-mail" name="email"
+        type="email"
+        onChange={handleChange}
+        value={userDetails.email}
+        required
+      />
+      <Input type="password" label="Password" name="password" onChange={handleChange} value={userDetails.password} required />
 
-        <div className="divide-y">
-          <div className="flex gap-5 items-center justify-between mt-8 mb-8">
-            <Link href={routes.user.resetPassword}>
-              <a className="text-sm">Forgot password?</a>
-            </Link>
-            <Button type="submit" loading={isLoading}>
-              Sign in
-            </Button>
-          </div>
-
-          <div className="text-center text-sm pt-6">
-            <p>
-              Don’t have an account?&nbsp;
-              <Link href={routes.user.register}>
-                <a className="underline">Register here</a>
-              </Link>
-            </p>
-          </div>
+      <div className="divide-y">
+        <div className="flex gap-5 items-center justify-between mt-8 mb-8">
+          <Link href={routes.user.resetPassword}>
+            <a className="text-sm">Forgot password?</a>
+          </Link>
+          <Button type="submit" loading={isSubmitting}>
+            Sign in
+          </Button>
         </div>
-      </form>
-    </Layouts.Auth>
+
+        <div className="text-center text-sm pt-6">
+          <p>
+            Don’t have an account?&nbsp;
+              <Link href={routes.user.register}>
+              <a className="underline">Register here</a>
+            </Link>
+          </p>
+        </div>
+      </div>
+    </form>
   )
 }
 

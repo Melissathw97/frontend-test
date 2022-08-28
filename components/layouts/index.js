@@ -3,18 +3,18 @@ import { useState } from "react"
 import AppHeader from "../app/header"
 import AppSidebar from "../app/sidebar"
 import styles from '../../styles/layout.module.scss'
-import { AuthProvider, ProtectRoute } from '../auth/admin/auth'
+import { AuthProvider, ProtectRoute } from '../auth'
 
 export const Auth = ({ children }) => {
   return (
-    <>
+    <AuthProvider>
       <Head>
         <title>Account | Griter</title>
       </Head>
       <div className="bg-secondary min-h-screen flex-center px-5">
         {children}
       </div>
-    </>
+    </AuthProvider>
   )
 }
 

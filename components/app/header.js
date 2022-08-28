@@ -1,6 +1,6 @@
 import React from 'react'
+import { useAuth } from '../auth'
 import Icon from '../reusable/icon'
-import { useAuth } from '../auth/admin/auth'
 import styles from '../../styles/layout.module.scss'
 
 const AppHeader = ({ toggleSidebar }) => {

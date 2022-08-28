@@ -4,8 +4,10 @@ import Icon from '../../../reusable/icon'
 import Input from '../../../reusable/input'
 import Loading from '../../../reusable/loading'
 import Button from '../../../reusable/button'
+import { createBook } from '../../../../api/book'
+import { getGenreList } from '../../../../api/genre'
+import { getAuthorList } from '../../../../api/author'
 import styles from '../../../../styles/dashboard.module.scss'
-import { getAuthorList, getGenreList, createBook } from '../../../auth/admin/api'
 
 const NewBookForm = ({ toggleModal, addBookHandler }) => {
   const [isLoading, setIsLoading] = useState(true);
