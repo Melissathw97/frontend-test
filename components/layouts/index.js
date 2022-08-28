@@ -31,7 +31,7 @@ export const App = ({ children }) => {
         <div className={styles.container}>
           <AppHeader toggleSidebar={toggleSidebar} />
           <AppSidebar showSidebar={showSidebar} />
-          <main className={`py-5 md:py-8 lg:py-10 min-h-screen w-full ${styles.main_bg}`}>
+          <main className={`py-5 md:py-8 lg:py-10 w-full ${styles.main_bg}`}>
             {children}
           </main>
         </div>

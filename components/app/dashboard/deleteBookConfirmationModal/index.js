@@ -17,11 +17,11 @@ const DeleteBookConfirmationModal = ({ book, toggleModal, deleteBookHandler }) =
         <div className="flex items-end items-center justify-center min-h-full p-4 text-center sm:p-0">
           <div className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 max-w-lg w-full">
             <div className="bg-white divide-y">
-              <div className="flex p-6 px-4 sm:px-6">
-                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full sm:h-12 sm:w-12 bg-red-100">
+              <div className="sm:flex text-center sm:text-left p-6 px-4 sm:px-6">
+                <div className="m-auto sm:m-0 flex items-center justify-center h-10 w-10 rounded-full sm:h-12 sm:w-12 bg-red-100">
                   <i className="fas fa-exclamation-triangle text-lg text-primary" />
                 </div>
-                <div className="ml-4">
+                <div className="sm:ml-4">
                   <h3 className="my-2 text-lg leading-6 font-medium text-gray-900" id="modal-title">
                     Are you sure you want to delete this book?
                   </h3>

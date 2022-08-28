@@ -11,20 +11,20 @@ const BookDetails = ({ book, toggleModal, toggleEditing }) => {
         <p>{serialNo}</p>
       </div>
 
-      <div className="px-4 py-5 sm:px-6 sm:flex sm:flex-wrap">
-        <div className="w-1/2 mb-6">
+      <div className="px-4 py-4 sm:px-6 sm:py-5 sm:flex sm:flex-wrap">
+        <div className="w-1/2 mb-4 sm:mb-6">
           <p className="text-sm text-gray-500">Genre</p>
           <p>{genre.name}</p>
         </div>
-        <div className="w-1/2 mb-6">
+        <div className="w-1/2 mb-4 sm:mb-6">
           <p className="text-sm text-gray-500">Author</p>
           <p>{author.name}</p>
         </div>
-        <div className="w-1/2 mb-6">
+        <div className="w-1/2 mb-4 sm:mb-6">
           <p className="text-sm text-gray-500">Published year</p>
           <p>{publishedYear}</p>
         </div>
-        <div className="w-1/2 mb-6">
+        <div className="w-1/2 mb-4 sm:mb-6">
           <p className="text-sm text-gray-500">Fiction</p>
           <p>{fiction ? "Yes" : "No"}</p>
         </div>

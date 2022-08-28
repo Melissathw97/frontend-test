@@ -1,11 +1,12 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import Icon from '../../components/reusable/icon'
 import Button from '../../components/reusable/button'
-import styles from '../../styles/dashboard.module.scss'
 import { getBookList, deleteBook } from '../../api/book'
 import NewBookModal from '../../components/app/dashboard/newBookModal'
 import ViewBookModal from '../../components/app/dashboard/viewBookModal'
+import BookListingList from '../../components/app/dashboard/bookListing/list'
+import BookListingTable from '../../components/app/dashboard/bookListing/table'
 import DeleteBookConfirmationModal from '../../components/app/dashboard/deleteBookConfirmationModal'
 
 const Dashboard = () => {
@@ -153,34 +154,37 @@ const Dashboard = () => {
       </div>
       <div className="flex pl-4 md:pl-0 h-16 items-center">
         <Icon name="search" />
-        <div className={`pl-3 mr-4 w-full flex ${styles.searchWrapper}`}>
-          <input
-            type="text"
-            name="search"
-            value={searchValue}
-            disabled={isSearching}
-            onKeyDown={handleKeyDown}
-            onChange={handleSearchChange}
-            className={`${isSearching ? 'w-auto' : 'w-full'} mr-5 bg-transparent`}
-            placeholder="Try your search by title name, author, genre, serial_number, published_year"
-          />
+        <div className={`pl-3 mr-4 w-full flex justify-between sm:justify-start items-center`}>
           {
-            isSearching && (
-              <Button
-                variant="link" size="sm"
-                className="text-primary"
-                onClick={cancelSearchHandler}
-              >
-                Clear search
+            isSearching ?
+              <>
+                <span className="text-gray-500 mr-6">{searchValue}</span>
+                <Button
+                  variant="link" size="sm"
+                  className="text-primary"
+                  onClick={cancelSearchHandler}
+                >
+                  Clear search
               </Button>
-            )
+              </>
+              :
+              <input
+                type="text"
+                name="search"
+                value={searchValue}
+                disabled={isSearching}
+                onKeyDown={handleKeyDown}
+                onChange={handleSearchChange}
+                className={`${isSearching ? 'sm:w-auto' : 'w-full'} mr-5 bg-transparent`}
+                placeholder="Try your search by title name, author, genre, serial_number, published_year"
+              />
           }
         </div>
       </div>
       <div className="pl-4 md:pl-0 py-5 pr-4">
         {
           isSearching ?
-            <p>We found {bookListToDisplay.length} {bookListToDisplay.length === 1 ? "result" : "results"} based on the search keywords "{searchValue}"</p>
+            <p>We found {bookListToDisplay.length} {bookListToDisplay.length === 1 ? "result" : "results"} based on the search keyword "{searchValue}"</p>
             :
             <p>List of {bookList.length} {bookList.length === 1 ? "book" : "books"}</p>
         }
@@ -190,76 +194,19 @@ const Dashboard = () => {
               <div className="animate-spin rounded-full border-t-2 border-black h-5 w-5 py-2" />
             </div>
             :
-            <div className={`table-fixed bg-white w-full text-left mt-5 relative ${styles.bookListTable}`}>
-              <div className={styles.bookListTableContent}>
-                <div>Serial number</div>
-                <div>Book title</div>
-                <div>Author</div>
-                <div>Genre</div>
-                <div>Published year</div>
-                <div>Fiction</div>
-                <div>Cover Photo</div>
-                <div>Action</div>
-                {
-                  bookListToDisplay.map(book => {
-                    const {
-                      id,
-                      title,
-                      fiction,
-                      cover_photo: {
-                        url: coverPhotoUrl
-                      },
-                      serial_number: serialNumber,
-                      published_year: publishedYear,
-                      author: {
-                        name: author
-                      },
-                      genre: {
-                        name: genre,
-                      }
-                    } = book;
+            <>
+              <BookListingList
+                viewBookHandler={viewBookHandler}
+                bookListToDisplay={bookListToDisplay}
+                toggleDeleteBookModal={toggleDeleteBookModal}
+              />
 
-                    return (
-                      <Fragment key={id}>
-                        <div>{serialNumber}</div>
-                        <div>{title}</div>
-                        <div>{author}</div>
-                        <div>{genre}</div>
-                        <div>{publishedYear}</div>
-                        <div>{fiction ? "Yes" : "No"}</div>
-                        <div className="text-secondary">
-                          <a target="_blank" href={coverPhotoUrl} download={title}>
-                            download
-                        </a>
-                        </div>
-                        <div>
-                          <a onClick={() => viewBookHandler(id)}>
-                            view
-                          </a>
-                          <a onClick={() => toggleDeleteBookModal(book)}>
-                            delete
-                          </a>
-                        </div>
-                      </Fragment>
-                    )
-                  })
-                }
-              </div>
-
-              <div className="pages flex pt-3 justify-end items-center sticky bottom-0 left-0 pr-4 w-full">
-                {Array.from({ length: 1 }, (_v, i) => (
-                  <div
-                    key={`page-${i + 1}`}
-                    className="bg-secondary text-white h-8 w-8 grid place-items-center rounded-full ml-1"
-                  >
-                    {i + 1}
-                  </div>
-                ))}
-                <span className="ml-4">
-                  <Icon name="arrowRight" />
-                </span>
-              </div>
-            </div>
+              <BookListingTable
+                viewBookHandler={viewBookHandler}
+                bookListToDisplay={bookListToDisplay}
+                toggleDeleteBookModal={toggleDeleteBookModal}
+              />
+            </>
         }
       </div>
 
