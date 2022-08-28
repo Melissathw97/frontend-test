@@ -211,10 +211,12 @@ const NewBookForm = ({ toggleModal, addBookHandler }) => {
                   {bookDetails.coverPhoto.label}
                 </p>
               </div>
-              <Button variant="link" onClick={removeCoverPhotoHandler} disabled={isSubmitting}>
-                <span className="text-primary">
-                  Remove image
-                </span>
+              <Button
+                disabled={isSubmitting}
+                onClick={removeCoverPhotoHandler}
+                variant="link" className="text-primary"
+              >
+                Remove image
               </Button>
             </div>
             :

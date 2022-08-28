@@ -15,6 +15,9 @@ const Dashboard = () => {
     newBookModal: false, viewBookModal: false
   });
   const [selectedBookId, setSelectedBookId] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchValue, setSearchValue] = useState([]);
+  const [bookListToDisplay, setBookListToDisplay] = useState([]);
 
   const toggleNewBookModal = () => setIsModalOpen({
     ...isModalOpen, newBookModal: !isModalOpen.newBookModal
@@ -52,9 +55,55 @@ const Dashboard = () => {
     })
   }
 
+  const handleKeyDown = e => {
+    if (e.key === "Enter") {
+      searchBookHandler()
+    }
+  }
+
+  const handleSearchChange = e => {
+    setSearchValue(e.target.value)
+  }
+
+  const searchBookHandler = () => {
+    setIsSearching(true)
+    const matchedBooks = bookList.filter(({
+      serial_number: serialNo,
+      title,
+      author: {
+        name: author
+      },
+      genre: {
+        name: genre
+      },
+      published_year: publishedYear,
+      fiction
+    }) => {
+      const book = { serialNo, title, author, genre, publishedYear, fiction }
+      const keys = Object.keys(book)
+
+      const hasMatch = keys.some(key => {
+        const search = searchValue.toUpperCase()
+        const value = book[key].toString().toUpperCase()
+        return value.includes(search)
+      })
+
+      return hasMatch
+    })
+
+    setBookListToDisplay(matchedBooks)
+  }
+
+  const cancelSearchHandler = () => {
+    setSearchValue("")
+    setIsSearching(false)
+    setBookListToDisplay(bookList)
+  }
+
   useEffect(() => {
     getBookList().then(data => {
       setBookList(data);
+      setBookListToDisplay(data);
       setIsLoading(false);
     }).catch(() => { })
   }, []);
@@ -74,14 +123,39 @@ const Dashboard = () => {
             />
           )}
         </div>
-        <div className="flex pl-4 md:pl-0 py-5 items-center">
+        <div className="flex pl-4 md:pl-0 h-16 items-center">
           <Icon name="search" />
-          <p className="pl-3 mr-4 w-full">
-            <input type="text" className="w-full mr-5 bg-transparent" placeholder="Try your search by title name, author, genre, serial_number, published_year" />
-          </p>
+          <div className={`pl-3 mr-4 w-full flex ${styles.searchWrapper}`}>
+            <input
+              type="text"
+              name="search"
+              value={searchValue}
+              disabled={isSearching}
+              onKeyDown={handleKeyDown}
+              onChange={handleSearchChange}
+              className={`${isSearching ? 'w-auto' : 'w-full'} mr-5 bg-transparent`}
+              placeholder="Try your search by title name, author, genre, serial_number, published_year"
+            />
+            {
+              isSearching && (
+                <Button
+                  variant="link" size="sm"
+                  className="text-primary"
+                  onClick={cancelSearchHandler}
+                >
+                  Clear search
+                </Button>
+              )
+            }
+          </div>
         </div>
         <div className="pl-4 md:pl-0 py-5 pr-4">
-          <p>List of {bookList.length} {bookList.length === 1 ? "book" : "books"}</p>
+          {
+            isSearching ?
+              <p>We found {bookListToDisplay.length} {bookListToDisplay.length === 1 ? "result" : "results"} based on the search keywords "{searchValue}"</p>
+              :
+              <p>List of {bookList.length} {bookList.length === 1 ? "book" : "books"}</p>
+          }
           {
             isLoading ?
               <div className="flex justify-center bg-white p-4 mt-5 mr-4">
@@ -98,7 +172,7 @@ const Dashboard = () => {
                 <div>Cover Photo</div>
                 <div>Action</div>
                 {
-                  bookList.map(book => {
+                  bookListToDisplay.map(book => {
                     const {
                       id,
                       title,

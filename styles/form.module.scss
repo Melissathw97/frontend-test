@@ -323,7 +323,8 @@
     &.light { background: #FFFFFF; color: var(--primary); &:hover { background: var(--primary-200) } }
     &.outline { background: #FFFFFF; border: 1px solid var(--dark-200); color: var(--dark-800); &:hover { background: var(--dark-100) } }
     &.danger { background: #FF0000; color: #FFFFFF; &:hover { background: #D80000 } }
-    &.link { background: none; color: #000000; padding-left: 0; padding-right: 0; min-width: 0; &:hover { text-decoration: underline }; &:focus { box-shadow: none; } }
+    &.link { background: none; color: #000000; padding-left: 0; padding-right: 0; min-width: 0; &:hover, &:focus { text-decoration: underline }; &:focus { box-shadow: none; } }
+    &[class*="text-primary"] { color: var(--primary); }
     &.sm { height: 36px; min-width: 64px; }
     &.md { height: 45px; min-width: 64px; }
     &.lg { height: auto; padding: 15px; }
