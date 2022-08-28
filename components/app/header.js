@@ -36,7 +36,7 @@ const AppHeader = ({ toggleSidebar }) => {
             <Icon name="arrowDown" />
           </div>
 
-          <div className={`origin-top-right absolute right-4 top-14 mt-2 w-44 bg-white rounded-md shadow-lg transition ease-${showDropdown ? 'out' : 'in'} duration-${showDropdown ? '100' : '75'} transform opacity-${showDropdown ? '100' : '0'} scale-${showDropdown ? '100' : '95'}`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+          <div className={`origin-top-right absolute right-4 top-14 mt-2 w-44 bg-white rounded-md shadow-lg ${showDropdown ? 'block' : 'hidden'}`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
             <div className="py-1" role="none">
               <a
                 href="#"
